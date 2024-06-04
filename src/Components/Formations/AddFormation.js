@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import url from "../../constants";
+import "../../App.css";
+import { Label, TextInput, Button, Select } from "flowbite-react";
 
 const AddFormation = () => {
   const [code, setCode] = useState("");
@@ -33,34 +35,67 @@ const AddFormation = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
-        placeholder="Code"
-        required
-      />
-      <input
-        type="text"
-        value={intitule}
-        onChange={(e) => setIntitule(e.target.value)}
-        placeholder="Intitule"
-        required
-      />
-      <select
-        value={departement}
-        onChange={(e) => setDepartement(e.target.value)}
+    <div
+      className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900"
+      style={{ height: "94vh", flexDirection: "column", gap: "2rem" }}
+    >
+      <form
+        className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md"
+        onSubmit={handleSubmit}
       >
-        <option value="">Select a department</option>
-        {departments.map((department) => (
-          <option key={department.code} value={department.code}>
-            {department.intitule}
-          </option>
-        ))}
-      </select>
-      <button type="submit">Add Formation</button>
-    </form>
+        <div className="mb-4">
+          <Label htmlFor="code" value="Code" className="dark:text-gray-200" />
+          <TextInput
+            id="code"
+            type="text"
+            placeholder="code"
+            required
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            className="mt-1 dark:bg-gray-700 dark:text-gray-200"
+          />
+        </div>
+        <div className="mb-4">
+          <Label
+            htmlFor="intitule"
+            value="Intitule"
+            className="dark:text-gray-200"
+          />
+          <TextInput
+            id="intitule"
+            type="text"
+            placeholder="intitule"
+            required
+            value={intitule}
+            onChange={(e) => setIntitule(e.target.value)}
+            className="mt-1 dark:bg-gray-700 dark:text-gray-200"
+          />
+        </div>
+        <div className="mb-4">
+          <div className="mb-2 block">
+            <Label htmlFor="countries" value="Select a department" />
+          </div>
+          <Select
+            id="countries"
+            value={departement}
+            onChange={(e) => setDepartement(e.target.value)}
+            required
+          >
+            {departments.map((department) => (
+              <option key={department.code} value={department.code}>
+                {department.intitule}
+              </option>
+            ))}
+          </Select>
+        </div>
+        <Button
+          className="w-full dark:bg-blue-700 dark:text-gray-200"
+          type="submit"
+        >
+          Add Formation
+        </Button>
+      </form>
+    </div>
   );
 };
 

@@ -20,7 +20,8 @@ const AddClass = () => {
       const response = await axios.get(url + "/formations");
       setFormations(response.data);
     };
-    fetchFormations();
+    // TODO: remove comment
+    // fetchFormations();
   }, []);
 
   useEffect(() => {
@@ -28,7 +29,8 @@ const AddClass = () => {
       const response = await axios.get(url + "/professors");
       setProfessors(response.data);
     };
-    fetchProfessors();
+    // TODO: remove comment
+    // fetchProfessors();
   }, []);
 
   useEffect(() => {

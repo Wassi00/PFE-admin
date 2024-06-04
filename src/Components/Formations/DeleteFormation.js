@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import url from "../../constants";
+import { Button, Label, Select } from "flowbite-react";
 
 const DeleteFormation = () => {
   const [formations, setFormations] = useState([]);
@@ -32,22 +33,32 @@ const DeleteFormation = () => {
   };
 
   return (
-    <div>
-      <h2>Select Formation to Delete</h2>
-      <select
-        value={selectedFormation}
-        onChange={(e) => setSelectedFormation(e.target.value)}
-      >
-        <option value="">Select Formation</option>
-        {formations.map((formation) => (
-          <option key={formation.Code} value={formation.Code}>
-            {formation.intitulé}
-          </option>
-        ))}
-      </select>
-      <button onClick={handleDelete} disabled={!selectedFormation}>
-        Delete Formation
-      </button>
+    <div
+      className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900"
+      style={{ height: "94vh", flexDirection: "column", gap: "2rem" }}
+    >
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md">
+        <div className="mb-2 block">
+          <Label htmlFor="formations" value="Select a formation" />
+        </div>
+        <Select
+          id="formations"
+          value={selectedFormation}
+          onChange={(e) => setSelectedFormation(e.target.value)}
+          required
+          className="mb-10"
+        >
+          {formations.map((formation) => (
+            <option key={formation.Code} value={formation.Code}>
+              {formation.intitulé}
+            </option>
+          ))}
+        </Select>
+
+        <Button onClick={handleDelete} disabled={!selectedFormation}>
+          Delete Formation
+        </Button>
+      </div>
     </div>
   );
 };
