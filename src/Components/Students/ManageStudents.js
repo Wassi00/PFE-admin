@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import url from "../../constants";
+import { Button, Table, TextInput, Select } from "flowbite-react";
 
 const ManageStudents = () => {
   const [students, setStudents] = useState([]);
@@ -55,39 +56,69 @@ const ManageStudents = () => {
   }, [searchCIN, selectedFormation]);
 
   return (
-    <div>
-      <button onClick={() => navigate("/students/add")}>Add Student</button>
-      <input
-        type="text"
-        placeholder="Search by CIN"
-        value={searchCIN}
-        onChange={(e) => setSearchCIN(e.target.value)}
-      />
-      <select
-        value={selectedFormation}
-        onChange={(e) => setSelectedFormation(e.target.value)}
-      >
-        <option value="">Select Formation</option>
-        {formations.map((formation) => (
-          <option key={formation.Code} value={formation.Code}>
-            {formation.intitulé}
-          </option>
-        ))}
-      </select>
-      <div>
-        {students.map((student) => (
-          <div key={student.Cin}>
-            <p>
-              {student.nom} {student.prenom}
-            </p>
-            <button onClick={() => navigate(`/students/edit/${student.Cin}`)}>
-              Edit
-            </button>
-            <button onClick={() => navigate(`/students/delete/${student.Cin}`)}>
-              Delete
-            </button>
-          </div>
-        ))}
+    <div
+      className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900"
+      style={{ height: "94vh", flexDirection: "column", gap: "2rem" }}
+    >
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-lg overflow-auto">
+        <div className="flex items-center mb-4">
+          <Select
+            value={selectedFormation}
+            onChange={(e) => setSelectedFormation(e.target.value)}
+            className="mr-2"
+          >
+            <option value="">Select Formation</option>
+            {formations.map((formation) => (
+              <option key={formation.Code} value={formation.Code}>
+                {formation.intitulé}
+              </option>
+            ))}
+          </Select>
+          <TextInput
+            type="text"
+            placeholder="Search by CIN"
+            value={searchCIN}
+            onChange={(e) => setSearchCIN(e.target.value)}
+          />
+        </div>
+        <Button onClick={() => navigate("/students/add")} className="mb-4">
+          Add Student
+        </Button>
+        <Table>
+          <Table.Head>
+            <Table.HeadCell>Student Name</Table.HeadCell>
+            <Table.HeadCell>
+              <span className="sr-only">Edit</span>
+            </Table.HeadCell>
+            <Table.HeadCell>
+              <span className="sr-only">Delete</span>
+            </Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {students.map((student) => (
+              <Table.Row
+                key={student.Cin}
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+              >
+                <Table.Cell>
+                  {student.nom} {student.prenom}
+                </Table.Cell>
+                <Table.Cell
+                  className="text-yellow-400"
+                  onClick={() => navigate(`/students/edit/${student.Cin}`)}
+                >
+                  Edit
+                </Table.Cell>
+                <Table.Cell
+                  className="text-red-600"
+                  onClick={() => navigate(`/students/delete/${student.Cin}`)}
+                >
+                  Delete
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
       </div>
     </div>
   );
