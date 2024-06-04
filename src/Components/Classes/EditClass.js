@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import url from "../../constants";
+import { Button, Checkbox, Label, Select, TextInput } from "flowbite-react";
 
 const EditClass = () => {
   const [formations, setFormations] = useState([]);
@@ -135,80 +136,160 @@ const EditClass = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <select
-        value={selectedFormation}
-        onChange={(e) => setSelectedFormation(e.target.value)}
-        required
+    <div
+      className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900"
+      style={{ height: "94vh", flexDirection: "column", gap: "2rem" }}
+    >
+      <form
+        className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md overflow-auto"
+        onSubmit={handleSubmit}
       >
-        <option value="">Select Formation</option>
-        {formations.map((formation) => (
-          <option key={formation.Code} value={formation.Code}>
-            {formation.intitulé}
-          </option>
-        ))}
-      </select>
+        <h1 className="text-white font-bold mb-5">Edit Class</h1>
 
-      <select
-        value={selectedClass}
-        onChange={(e) => setSelectedClass(e.target.value)}
-        required
-      >
-        <option value="">Select Class</option>
-        {classes.map((classe) => (
-          <option key={classe.code} value={classe.code}>
-            {classe.name}
-          </option>
-        ))}
-      </select>
-
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Class Name"
-        required
-      />
-
-      <h3>Assign Professors to Modules</h3>
-      {modules.map((module) => (
-        <div key={module.code}>
-          <label>{module.intitule}</label>
-          <select
-            value={
-              assignedProfessors.find((prof) => prof.moduleCode === module.code)
-                ?.professorCin || ""
-            }
-            onChange={(e) => handleProfessorChange(module.code, e.target.value)}
-            required
-          >
-            <option value="">Select Professor</option>
-            {professors
-              .filter((prof) => prof.departement === module.departement)
-              .map((prof) => (
-                <option key={prof.Cin} value={prof.Cin}>
-                  {prof.nom} {prof.prenom}
-                </option>
-              ))}
-          </select>
+        <div className="mb-2 block">
+          <Label htmlFor="formations" value="Select a formation" />
         </div>
-      ))}
+        <Select
+          id="formations"
+          value={selectedFormation}
+          onChange={(e) => setSelectedFormation(e.target.value)}
+          required
+          className="mb-5"
+        >
+          {formations.map((formation) => (
+            <option key={formation.Code} value={formation.Code}>
+              {formation.intitulé}
+            </option>
+          ))}
+        </Select>
 
-      <h3>Assign Students</h3>
-      {students.map((student) => (
-        <div key={student.Cin}>
-          <label>
-            <input
-              type="checkbox"
-              checked={assignedStudents.includes(student.Cin)}
-              onChange={() => handleStudentChange(student.Cin)}
-            />
-            {student.nom} {student.prenom}
-          </label>
+        {/* <select
+          value={selectedClass}
+          onChange={(e) => setSelectedClass(e.target.value)}
+          required
+        >
+          <option value="">Select Class</option>
+          {classes.map((classe) => (
+            <option key={classe.code} value={classe.code}>
+              {classe.name}
+            </option>
+          ))}
+        </select> */}
+
+        <div className="mb-2 block">
+          <Label htmlFor="classes" value="Select Class" />
         </div>
-      ))}
-      <button type="submit">Update Class</button>
-    </form>
+        <Select
+          id="classes"
+          value={selectedClass}
+          onChange={(e) => setSelectedClass(e.target.value)}
+          required
+          className="mb-5"
+        >
+          {classes.map((classe) => (
+            <option key={classe.code} value={classe.code}>
+              {classe.name}
+            </option>
+          ))}
+        </Select>
+
+        {/* <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Class Name"
+          required
+        /> */}
+
+        <TextInput
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Class Name"
+          required
+          className="mb-4"
+        />
+
+        <h3 className="text-white font-bold mb-4">
+          Assign Professors to Modules
+        </h3>
+        {modules.map((module) => (
+          <div key={module.code}>
+            {/* <label>{module.intitule}</label>
+            <select
+              value={
+                assignedProfessors.find(
+                  (prof) => prof.moduleCode === module.code
+                )?.professorCin || ""
+              }
+              onChange={(e) =>
+                handleProfessorChange(module.code, e.target.value)
+              }
+              required
+            >
+              <option value="">Select Professor</option>
+              {professors
+                .filter((prof) => prof.departement === module.departement)
+                .map((prof) => (
+                  <option key={prof.Cin} value={prof.Cin}>
+                    {prof.nom} {prof.prenom}
+                  </option>
+                ))}
+            </select> */}
+
+            <div className="block">
+              <Label htmlFor="Professor" value={module.intitule} />
+            </div>
+            <Select
+              id="Professor"
+              value={
+                assignedProfessors.find(
+                  (prof) => prof.moduleCode === module.code
+                )?.professorCin || ""
+              }
+              onChange={(e) =>
+                handleProfessorChange(module.code, e.target.value)
+              }
+              required
+              className="mb-4"
+            >
+              {professors
+                .filter((prof) => prof.departement === module.departement)
+                .map((prof) => (
+                  <option key={prof.Cin} value={prof.Cin}>
+                    {prof.nom} {prof.prenom}
+                  </option>
+                ))}
+            </Select>
+          </div>
+        ))}
+        <h3 className="text-white font-bold mb-2">Assign Students</h3>
+        {students.map((student) => (
+          <div key={student.Cin}>
+            {/* <label>
+              <input
+                type="checkbox"
+                checked={assignedStudents.includes(student.Cin)}
+                onChange={() => handleStudentChange(student.Cin)}
+              />
+              {student.nom} {student.prenom}
+            </label> */}
+            <label>
+              <div className="flex items-center gap-2 mb-2">
+                <Checkbox
+                  checked={assignedStudents.includes(student.Cin)}
+                  onChange={() => handleStudentChange(student.Cin)}
+                />
+                <Label htmlFor="accept" className="flex">
+                  {student.nom} {student.prenom}
+                </Label>
+              </div>
+            </label>
+          </div>
+        ))}
+        <Button type="submit">Update Class</Button>
+      </form>
+    </div>
   );
 };
 
