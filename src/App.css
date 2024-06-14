@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+h1 {
+  font-size: large;
+  font-weight: bold;
+  color: white;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 3px;

@@ -1,90 +1,257 @@
-import React, { useState } from "react";
-import axios from "axios";
-import "./App.css";
-import url from "./constants";
-import AdminPanel from "./Components/AdminPanel";
+import React from "react";
 import {
-  Button,
-  DarkThemeToggle,
-  Flowbite,
-  Label,
-  TextInput,
-} from "flowbite-react";
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider, useAuth } from "./AuthContext";
+import AdminPanel from "./Components/AdminPanel";
+import AddFormation from "./Components/Formations/AddFormation";
+import EditFormation from "./Components/Formations/EditFormation";
+import DeleteFormation from "./Components/Formations/DeleteFormation";
+import AddModule from "./Components/Modules/AddModule";
+import EditModule from "./Components/Modules/EditModule";
+import DeleteModule from "./Components/Modules/DeleteModule";
+import AddDepartment from "./Components/Departments/AddDepartment";
+import DeleteDepartment from "./Components/Departments/DeleteDepartment";
+import EditDepartment from "./Components/Departments/EditDepartment";
+import AddClass from "./Components/Classes/AddClass";
+import EditClass from "./Components/Classes/EditClass";
+import DeleteClass from "./Components/Classes/DeleteClass";
+import ManageProf from "./Components/Professors/ManageProf";
+import AddProf from "./Components/Professors/AddProf";
+import EditProf from "./Components/Professors/EditProf";
+import DeleteProf from "./Components/Professors/DeleteProf";
+import ManageStudents from "./Components/Students/ManageStudents";
+import EditStudent from "./Components/Students/EditStudent";
+import DeleteStudent from "./Components/Students/DeleteStudent";
+import AddStudent from "./Components/Students/AddStudents";
+import ManageClasses from "./Components/Classes/ManageClasses";
+import ManageDepartments from "./Components/Departments/ManageDepartments";
+import ManageFormations from "./Components/Formations/ManageFormations";
+import ManageModules from "./Components/Modules/ManageModules";
+import Login from "./Login";
+
+const RequireAuth = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+  return children;
+};
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [token, setToken] = useState("");
-  const [email, setEmail] = useState("");
-  const [cin, setCin] = useState("");
-
-  const login = async () => {
-    try {
-      const response = await axios.post(url + "/admin/login", {
-        emailAcademique: email,
-        cin,
-      });
-      setToken(response.data.token);
-      setIsAuthenticated(true);
-    } catch (error) {
-      alert("Login failed");
-    }
-  };
-
-  if (!isAuthenticated) {
-    return (
-      <Flowbite>
-        <div
-          className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900"
-          style={{ height: "100vh", flexDirection: "column", gap: "2rem" }}
-        >
-          <DarkThemeToggle />
-
-          <form className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md">
-            <div className="mb-4">
-              <Label
-                htmlFor="email"
-                value="Email"
-                className="dark:text-gray-200"
-              />
-              <TextInput
-                id="email"
-                type="email"
-                placeholder="name@flowbite.com"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 dark:bg-gray-700 dark:text-gray-200"
-              />
-            </div>
-            <div className="mb-4">
-              <Label
-                htmlFor="cin"
-                value="CIN"
-                className="dark:text-gray-200"
-              />
-              <TextInput
-                id="cin"
-                type="text"
-                placeholder="cin"
-                required
-                value={cin}
-                onChange={(e) => setCin(e.target.value)}
-                className="mt-1 dark:bg-gray-700 dark:text-gray-200"
-              />
-            </div>
-            <Button
-              className="w-full dark:bg-blue-700 dark:text-gray-200"
-              onClick={login}
-            >
-              Login
-            </Button>
-          </form>
-        </div>
-      </Flowbite>
-    );
-  }
-
-  return <AdminPanel />;
+  return (
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/home"
+            element={
+              <RequireAuth>
+                <AdminPanel />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/formations"
+            element={
+              <RequireAuth>
+                <ManageFormations />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/formations/add"
+            element={
+              <RequireAuth>
+                <AddFormation />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/formations/edit"
+            element={
+              <RequireAuth>
+                <EditFormation />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/formations/delete"
+            element={
+              <RequireAuth>
+                <DeleteFormation />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/modules"
+            element={
+              <RequireAuth>
+                <ManageModules />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/modules/add"
+            element={
+              <RequireAuth>
+                <AddModule />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/modules/edit"
+            element={
+              <RequireAuth>
+                <EditModule />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/modules/delete"
+            element={
+              <RequireAuth>
+                <DeleteModule />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/departments"
+            element={
+              <RequireAuth>
+                <ManageDepartments />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/departments/add"
+            element={
+              <RequireAuth>
+                <AddDepartment />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/departments/edit"
+            element={
+              <RequireAuth>
+                <EditDepartment />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/departments/delete"
+            element={
+              <RequireAuth>
+                <DeleteDepartment />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/classes"
+            element={
+              <RequireAuth>
+                <ManageClasses />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/classes/add"
+            element={
+              <RequireAuth>
+                <AddClass />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/classes/edit"
+            element={
+              <RequireAuth>
+                <EditClass />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/classes/delete"
+            element={
+              <RequireAuth>
+                <DeleteClass />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/Professors"
+            element={
+              <RequireAuth>
+                <ManageProf />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/professors/add"
+            element={
+              <RequireAuth>
+                <AddProf />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/professors/edit/:Cin"
+            element={
+              <RequireAuth>
+                <EditProf />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/professors/delete/:Cin"
+            element={
+              <RequireAuth>
+                <DeleteProf />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/Students"
+            element={
+              <RequireAuth>
+                <ManageStudents />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/students/add"
+            element={
+              <RequireAuth>
+                <AddStudent />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/students/edit/:Cin"
+            element={
+              <RequireAuth>
+                <EditStudent />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/students/delete/:Cin"
+            element={
+              <RequireAuth>
+                <DeleteStudent />
+              </RequireAuth>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
+  );
 };
 
 export default App;

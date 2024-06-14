@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import url from "../../constants";
 import { Button, Label, Select } from "flowbite-react";
+import Header from "../Header";
 
 const DeleteModule = () => {
   const [modules, setModules] = useState([]);
@@ -57,36 +58,30 @@ const DeleteModule = () => {
   };
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900"
-      style={{ height: "94vh", flexDirection: "column", gap: "2rem" }}
-    >
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md">
-        {" "}
-        {/* <select onChange={(e) => onSelect(e.target.value)}>
-        <option value="">Select Formation</option>
-        {formations.map((formation) => (
-          <option key={formation.Code} value={formation.Code}>
-            {formation.intitulé}
-          </option>
-        ))}
-      </select> */}
-        <div className="mb-2 block">
-          <Label htmlFor="formations" value="Select Formation" />
-        </div>
-        <Select
-          id="formations"
-          onChange={(e) => onSelect(e.target.value)}
-          required
-          className="mb-5"
-        >
-          {formations.map((formation) => (
-            <option key={formation.Code} value={formation.Code}>
-              {formation.intitulé}
-            </option>
-          ))}
-        </Select>
-        {/* <select
+    <div>
+      <Header />
+      <div
+        className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900"
+        style={{ height: "94vh", flexDirection: "column", gap: "2rem" }}
+      >
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md">
+          {" "}
+          <div className="mb-2 block">
+            <Label htmlFor="formations" value="Select Formation" />
+          </div>
+          <Select
+            id="formations"
+            onChange={(e) => onSelect(e.target.value)}
+            required
+            className="mb-5"
+          >
+            {formations.map((formation) => (
+              <option key={formation.Code} value={formation.Code}>
+                {formation.intitulé}
+              </option>
+            ))}
+          </Select>
+          {/* <select
         value={selectedModuleCode}
         onChange={(e) => setSelectedModuleCode(e.target.value)}
       >
@@ -97,25 +92,26 @@ const DeleteModule = () => {
           </option>
         ))}
       </select> */}
-        <div className="mb-2 block">
-          <Label htmlFor="modules" value="Select Module" />
+          <div className="mb-2 block">
+            <Label htmlFor="modules" value="Select Module" />
+          </div>
+          <Select
+            id="modules"
+            value={selectedModuleCode}
+            onChange={(e) => setSelectedModuleCode(e.target.value)}
+            required
+            className="mb-5"
+          >
+            {modules.map((module) => (
+              <option key={module.code} value={module.code}>
+                {module.intitule}
+              </option>
+            ))}
+          </Select>
+          <Button onClick={handleDelete} disabled={!selectedModuleCode}>
+            Delete Module
+          </Button>
         </div>
-        <Select
-          id="modules"
-          value={selectedModuleCode}
-          onChange={(e) => setSelectedModuleCode(e.target.value)}
-          required
-          className="mb-5"
-        >
-          {modules.map((module) => (
-            <option key={module.code} value={module.code}>
-              {module.intitule}
-            </option>
-          ))}
-        </Select>
-        <Button onClick={handleDelete} disabled={!selectedModuleCode}>
-          Delete Module
-        </Button>
       </div>
     </div>
   );

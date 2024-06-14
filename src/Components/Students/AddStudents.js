@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import url from "../../constants";
 import { TextInput, Select, Button } from "flowbite-react";
+import Header from "../Header";
 
 const AddStudent = () => {
   const [formations, setFormations] = useState([]);
@@ -45,101 +46,103 @@ const AddStudent = () => {
   };
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900"
-      style={{ height: "94vh", flexDirection: "column", gap: "2rem" }}
-    >
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-lg overflow-auto"
+    <div>
+      <Header />
+      <div
+        className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900"
+        style={{ height: "94vh", flexDirection: "column", gap: "2rem" }}
       >
-        <h2 className="text-white font-bold mb-4">Add Student</h2>
-
-        {/* CIN (if available, pre-fill for reference) */}
-        <TextInput
-          name="Cin"
-          placeholder="CIN"
-          value={studentData.Cin || ""} // Pre-fill if available
-          readOnly={true}
-          className="mb-4"
-        />
-
-        {/* Cne, Name, Last Name */}
-        <TextInput
-          name="Cne"
-          placeholder="CNE"
-          value={studentData.Cne || ""} // Pre-fill if available
-          onChange={handleChange}
-          required
-          className="mb-4"
-        />
-        <TextInput
-          name="nom"
-          placeholder="First Name"
-          value={studentData.nom || ""} // Pre-fill if available
-          onChange={handleChange}
-          required
-          className="mb-4"
-        />
-        <TextInput
-          name="prenom"
-          placeholder="Last Name"
-          value={studentData.prenom || ""} // Pre-fill if available
-          onChange={handleChange}
-          required
-          className="mb-4"
-        />
-
-        {/* Birthdate */}
-        <TextInput
-          type="date"
-          name="dateDeNaissance"
-          placeholder="Birthdate"
-          onChange={handleChange}
-          required
-          className="mb-4"
-        />
-
-        {/* Place of Birth */}
-        <TextInput
-          name="lieuDeNaissance"
-          placeholder="Place of Birth"
-          value={studentData.lieuDeNaissance || ""} // Pre-fill if available
-          onChange={handleChange}
-          required
-          className="mb-4"
-        />
-
-        {/* Academic Email */}
-        <TextInput
-          type="email"
-          name="adresseEmailAcademique"
-          placeholder="Academic Email"
-          onChange={handleChange}
-          required
-          className="mb-4"
-        />
-
-        {/* Formation */}
-        <Select
-          name="formationCode"
-          placeholder="Formation"
-          value={studentData.formationCode || ""} // Pre-fill if available
-          onChange={handleChange}
-          required
-          className="mb-4"
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-lg overflow-auto"
         >
-          <option value="">Select Formation</option>
-          {formations.map((formation) => (
-            <option key={formation.Code} value={formation.Code}>
-              {formation.intitulé}
-            </option>
-          ))}
-        </Select>
+          <h2 className="text-white font-bold mb-4">Add Student</h2>
 
-        {/* Submit Button */}
-        <Button type="submit">Add Student</Button>
-      </form>
+          {/* CIN (if available, pre-fill for reference) */}
+          <TextInput
+            name="Cin"
+            placeholder="CIN"
+            value={studentData.Cin || ""}
+            className="mb-4"
+          />
+
+          {/* Cne, Name, Last Name */}
+          <TextInput
+            name="Cne"
+            placeholder="CNE"
+            value={studentData.Cne || ""} // Pre-fill if available
+            onChange={handleChange}
+            required
+            className="mb-4"
+          />
+          <TextInput
+            name="nom"
+            placeholder="First Name"
+            value={studentData.nom || ""} // Pre-fill if available
+            onChange={handleChange}
+            required
+            className="mb-4"
+          />
+          <TextInput
+            name="prenom"
+            placeholder="Last Name"
+            value={studentData.prenom || ""} // Pre-fill if available
+            onChange={handleChange}
+            required
+            className="mb-4"
+          />
+
+          {/* Birthdate */}
+          <TextInput
+            type="date"
+            name="dateDeNaissance"
+            placeholder="Birthdate"
+            onChange={handleChange}
+            required
+            className="mb-4"
+          />
+
+          {/* Place of Birth */}
+          <TextInput
+            name="lieuDeNaissance"
+            placeholder="Place of Birth"
+            value={studentData.lieuDeNaissance || ""} // Pre-fill if available
+            onChange={handleChange}
+            required
+            className="mb-4"
+          />
+
+          {/* Academic Email */}
+          <TextInput
+            type="email"
+            name="adresseEmailAcademique"
+            placeholder="Academic Email"
+            onChange={handleChange}
+            required
+            className="mb-4"
+          />
+
+          {/* Formation */}
+          <Select
+            name="formationCode"
+            placeholder="Formation"
+            value={studentData.formationCode || ""} // Pre-fill if available
+            onChange={handleChange}
+            required
+            className="mb-4"
+          >
+            <option value="">Select Formation</option>
+            {formations.map((formation) => (
+              <option key={formation.Code} value={formation.Code}>
+                {formation.intitulé}
+              </option>
+            ))}
+          </Select>
+
+          {/* Submit Button */}
+          <Button type="submit">Add Student</Button>
+        </form>
+      </div>
     </div>
   );
 };
